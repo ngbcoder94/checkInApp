@@ -17,37 +17,40 @@ class CheckInApp(tk.Tk):
         self.allowed_names = []
 
         # Setup Page UI
-        
-        #.setup_frame is a frame, containg a label, and prompts for the user to enter
-        self.setup_frame = tk.Frame(self)
-        self.setup_frame.pack(fill=tk.BOTH, expand=True)
+        #This is window A.
 
-        self.setup_label = tk.Label(self.setup_frame, text="Upload the list of allowed names")
-        self.setup_label.pack(pady=10)
+        #.setup_frame is a frame, containg a label and prompts for the user to upload their file.
+        self.setup_frame = tk.Frame(self)  #Set up frame.
+        self.setup_frame.pack(fill=tk.BOTH, expand=True)  #Set up functionality of page.
 
-        self.setup_button = tk.Button(self.setup_frame, text="Upload File", command=self.upload_file)
-        self.setup_button.pack(pady=5)
+        self.setup_label = tk.Label(self.setup_frame, text="Upload the list of allowed names")	#Prompt user for the list/file.
+        self.setup_label.pack(pady=10)  #Set up the functionality of the label... i.e, how it responds when windown is expanded ect...
 
-        self.run_button = tk.Button(self.setup_frame, text="Run", command=self.show_check_in_page, state=tk.DISABLED)
-        self.run_button.pack(pady=5)
+        self.setup_button = tk.Button(self.setup_frame, text="Upload File", command=self.upload_file)	#Create the button for UPLOAD file.
+        self.setup_button.pack(pady=5)  #Creates the visual aspect of the button... spacing ect... 
+
+        self.run_button = tk.Button(self.setup_frame, text="Run", command=self.show_check_in_page, state=tk.DISABLED)  #Create the RUN buttom
+        self.run_button.pack(pady=5)  #Creates the visual aspect of the button... spacing ect...
 
         # Check-in Page UI
-        self.check_in_frame = tk.Frame(self)
+	# This is window B.
+        self.check_in_frame = tk.Frame(self)  #Set up the frame.
 
-        self.name_label = tk.Label(self.check_in_frame, text="Enter Your Name:")
-        self.name_label.pack(pady=10)
+        self.name_label = tk.Label(self.check_in_frame, text="Enter Your Name:")  #Set up the display to "Enter your name".
+        self.name_label.pack(pady=10)  #Create the visual aspect of the button... spacing ect...
 
-        self.name_entry = tk.Entry(self.check_in_frame)
-        self.name_entry.pack(pady=5)
+        self.name_entry = tk.Entry(self.check_in_frame)  #Capture the name for processing.
+        self.name_entry.pack(pady=5)  #Create the visual aspect of the object on the screen.
 
-        self.check_button = tk.Button(self.check_in_frame, text="Check", command=self.check_name)
-        self.check_button.pack(pady=5)
+        self.check_button = tk.Button(self.check_in_frame, text="Check", command=self.check_name)  #Create the Check object.
+        self.check_button.pack(pady=5)  #Create the visual aspect of the check sign... maybe?? lol
 
-        self.result_label = tk.Label(self.check_in_frame, text="")
-        self.result_label.pack(pady=10)
+        self.result_label = tk.Label(self.check_in_frame, text="")  #This is where the check or X will be displayed.
+        self.result_label.pack(pady=10)  #Create the visual aspect of the area. 
 
-        self.close_button = tk.Button(self.check_in_frame, text="Close", command=self.show_setup_page)
-        self.close_button.pack(side=tk.BOTTOM, padx=10, pady=10)
+        self.close_button = tk.Button(self.check_in_frame, text="Close", command=self.show_setup_page)  #Create the CLOSE button towards the bottom.
+        self.close_button.pack(side=tk.BOTTOM, padx=10, pady=10)  #Create the visual aspect of the button.
+
 
     def upload_file(self):
         file_path = filedialog.askopenfilename(filetypes=[("CSV Files", "*.csv"), ("Excel Files", "*.xlsx")])
