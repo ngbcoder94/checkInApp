@@ -1,6 +1,6 @@
-import tkinter as tk
-from tkinter import filedialog
-import csv
+import tkinter as tk  #Import the TKinter framework.
+from tkinter import filedialog  #Import filedialog for file handling.
+import csv  #Import csv framework.
 
 #Here is the class definition for my Check-In App. 
 #tk.TK is noting that CheckInApp will inherit from tk.TK. 
@@ -51,40 +51,65 @@ class CheckInApp(tk.Tk):
         self.close_button = tk.Button(self.check_in_frame, text="Close", command=self.show_setup_page)  #Create the CLOSE button towards the bottom.
         self.close_button.pack(side=tk.BOTTOM, padx=10, pady=10)  #Create the visual aspect of the button.
 
-
+    #Here is the function that will upload a file:)
     def upload_file(self):
+        
+        #This is pretty cool... This line opens a file dialog window. The filetypes define the types of files the program will accept.
         file_path = filedialog.askopenfilename(filetypes=[("CSV Files", "*.csv"), ("Excel Files", "*.xlsx")])
+		
+	#Check to see if file_path has been set successfully.
         if file_path:
-            self.allowed_names = self.read_names_from_file(file_path)
+            self.allowed_names = self.read_names_from_file(file_path)  #Load the names in from the file into the allowed_names array.
+
+	    #Check if allowed_names is not null/empty/
             if self.allowed_names:
-                self.run_button.config(state=tk.NORMAL)
+                self.run_button.config(state=tk.NORMAL)  #Set the state of the run buttom to NORMAL.
 
+    #Function that reads the names from a file.
     def read_names_from_file(self, file_path):
-        allowed_names = []
+        allowed_names = []  #Create a copy of allowed_names.
+
+        #Try to open the file and loop through the names.
         try:
-            with open(file_path, newline="") as file:
-                reader = csv.reader(file)
+            #Open the file with the give path.
+            with open(file_path, newline="") as file: 
+                reader = csv.reader(file)  #Open a reader obj and pass it the file path.
+	
+		#Loop through the rows in the file
                 for row in reader:
-                    allowed_names.extend(row)
-        except Exception as e:
-            print("Error reading file:", e)
-        return allowed_names
+                    allowed_names.extend(row)  #Add the content of the col to the allowed_names array.
 
+	#Create an exception case if I can't open the file.
+        except Exception as exceptionA:
+            print("Error reading file:", exceptionA)  #Display the exception that was caught.
+        return allowed_names  #Return the array of names.
+
+    #Function to display the check in page.
     def show_check_in_page(self):
-        self.setup_frame.pack_forget()
-        self.check_in_frame.pack(fill=tk.BOTH, expand=True)
+        self.setup_frame.pack_forget()  #Clear the screen... getting ready to switch screens.
+        self.check_in_frame.pack(fill=tk.BOTH, expand=True)  #Create the new window.
 
+    #Function to display the set-up/landing page.
     def show_setup_page(self):
-        self.check_in_frame.pack_forget()
-        self.setup_frame.pack(fill=tk.BOTH, expand=True)
+        self.check_in_frame.pack_forget()  #Clear the page... get ready to switch the screens.
+        self.setup_frame.pack(fill=tk.BOTH, expand=True)  #Set up the new screen.
 
+    #Function that checks the name of the user.
     def check_name(self):
-        name = self.name_entry.get().strip()
-        if name in self.allowed_names:
-            self.result_label.config(text="✅ Name found", fg="green")
-        else:
-            self.result_label.config(text="❌ Name not found", fg="red")
+        name = self.name_entry.get().strip()  #Strip the name of leading whitespace 
 
+	#Check to see if the name entered is in the list of names
+        if name in self.allowed_names:
+            self.result_label.config(text="✅ Name found", fg="green")  #If so, display the correct sign: a green check mark.
+
+	#Default case if the name is not in the list.
+        else:
+            self.result_label.config(text="❌ Name not found", fg="red")  #If not, display the correct sign: a red X.
+
+#Here is my main method for the class/file
 if __name__ == "__main__":
-    app = CheckInApp()
-    app.mainloop()
+
+    #NOTE: When you create an instance of a class like this, you automatically call it's constructor...
+    #... That will create these pages and already have the landing page (window A) ready for the user for when .mainloop() is called.
+    app = CheckInApp()  #Create a CheckInApp instance named app
+    app.mainloop()  #Enter TKinter's event loop!
